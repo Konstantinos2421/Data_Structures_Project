@@ -1,6 +1,6 @@
 # Data Structures Project
-A project on Data Structures. An implementation of usual sorting and searching algorithms, AVL trees, and hash tables.
-The whole project is implemented with C++.
+A project on Data Structures. An implementation of usual sorting and searching algorithms, AVL trees, and hash tables.  
+The whole project is implemented with C++.  
 At first we collect data from ocean.csv file, which contains measurements of the temperature (in °C) of the ocean water and the recordings of Phosphate, Nitrite, Nitrate, Salinity, Oxygen for the period 2000 to 2015.
 The purpose of the project is to create data structures with the given data and execute usual algorithms on these structures.
 
