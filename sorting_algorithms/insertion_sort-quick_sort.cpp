@@ -37,15 +37,15 @@ void read_data(ifstream &fin, Data *table){
 
 void Insertion_Sort(Data *table, int left, int right){
 
-    for(int i=left+1; i<=right; i++){ //i είναι μετρητής ο οποίος σε κάθε επανάληψη προσδιορίζει το στοιχείο προς ταξινόμηση
-        for(int j=left; j<i; j++){    //j είναι μετρητής ο οποίος προσδιορίζει τη θέση εισαγωγής του στοιχείου i στο ταξινομημένο κομμάτι του πίνακα
-            if(table[i].temperature < table[j].temperature){ //Αν η θερμοκρασία του στοιχείου στη θέση j είναι μεγαλύτερη από αυτή του στοιχείου στη θέση i
-                Data temp = table[i];                        //το στοιχείο που βρίσκεται στη θέση i αποθηκεύεται στη μεταβλητή temp
+    for(int i=left+1; i<=right; i++){ 
+        for(int j=left; j<i; j++){  
+            if(table[i].temperature < table[j].temperature){ 
+                Data temp = table[i];                       
                 for(int k=i-1; k>=j; k--)                    
-                    table[k+1] = table[k];                   //όλα τα στοιχεία από τη θέση i-1 μέχρι τη θέση j μετατοπίζονται μία θέση δεξιά
-                table[j] = temp;                             //και το temp εισάγεται στη θέση j
-            }else                                            //Σε κάθε άλλη περίπτωση εκτελείται η ίδια διαδικασία αυξάνοντας κάθε φορά το j κατά 1
-                continue;                                    //μέχρι να βρεθεί η σωστή θέση εισαγωγής του στοιχείου i στον ταξινομημένο πίνακα
+                    table[k+1] = table[k];                   
+                table[j] = temp;                             
+            }else              
+                continue;  
         }
     }
 }
@@ -55,39 +55,39 @@ void Quick_Sort(Data *table, int left, int right){
 
     int i = left;
     int j = right;
-    float pivot = table[i].temperature;  //Ορισμός της θερμοκρασίας του πρώτου στοιχείου ως στοιχείου διαχωρισμού
+    float pivot = table[i].temperature;
     i++;
 
     while(i <= j){
-        if(table[i].temperature>pivot && table[j].temperature<=pivot){  //Αν και τα δύο στοιχεία είναι σε λάθος θέση
-            Data temp = table[i];                                       //κάνω swap
+        if(table[i].temperature>pivot && table[j].temperature<=pivot){ 
+            Data temp = table[i];                                       
             table[i] = table[j];
             table[j] = temp;
             i++;
             j--;
-        }else if(table[i].temperature>pivot && table[j].temperature>pivot){ //Αν μόνο το table[i] είναι σε λάθος θέση
-            j--;                                                            //μειώνω τον μετρητή j κατά 1
-        }else if(table[i].temperature<=pivot && table[j].temperature<=pivot){ //Αν μόνο το table[j] είναι σε λάθος θέση
-            i++;                                                              //αυξάνω τον μετρητή i κατά 1
-        }else if(table[i].temperature<=pivot && table[j].temperature>pivot){ //Αν και τα δύο στοιχεία είναι στη σωστή θέση
-            i++;                                                             //αυξάνω τον μετρητή i κατά 1
-            j--;                                                             //και μειώνω τον μετρητή j κατά 1
+        }else if(table[i].temperature>pivot && table[j].temperature>pivot){ 
+            j--;                                                           
+        }else if(table[i].temperature<=pivot && table[j].temperature<=pivot){
+            i++;                                                         
+        }else if(table[i].temperature<=pivot && table[j].temperature>pivot){
+            i++;                                                             
+            j--;
         }
     }
 
-    Data temp = table[left];  //Εναλλαγή του στοιχείου table[j] με το πρώτο στοιχείο του πίνακα(δηλαδή το στοιχείο διαχωρισμού)
+    Data temp = table[left];
     table[left] = table[j];
     table[j] = temp;
 
-    if(left < j-1)                    //Ελέγχεται αν τα όρια των δύο υποπινάκων αριστερά και δεξιά του στοιχείου διαχωρισμού δεν ξεπερνούν τα όρια του αρχικού πίνακα
-        Quick_Sort(table, left, j-1); //και αν ισχύουν οι συνθήκες γίνεται αναδρομική εκτέλεση της συνάρτησης για τους δύο υποπίνακες
+    if(left < j-1)                    
+        Quick_Sort(table, left, j-1);
     if(right > j+1)
         Quick_Sort(table, j+1, right);
 
 }
 
 
-void display_data(Data *table, int length){  //Εκτύπωση των δεδομένων των στοιχείων του πίνακα table στο αρχείο "sorted_data.doc"
+void display_data(Data *table, int length){  
     ofstream fout("sorted_data.doc");
 
     fout << "Date\t\t\tTemperature" << endl;
