@@ -40,7 +40,7 @@ void read_data(ifstream &fin, Data *table){
 
 char compare_dates(string date1, string date2){
     string month, day, year;
-    stringstream data1(date1);  //Μετατροπή της χρονιάς, του μήνα και της μέρας της ημερομηνίας date1 σε ακέραιους
+    stringstream data1(date1);  
     getline(data1, month, '/');
     getline(data1, day, '/');
     getline(data1, year, '/');
@@ -48,7 +48,7 @@ char compare_dates(string date1, string date2){
     int day1 = stoi(day);
     int year1 = stoi(year);
 
-    stringstream data2(date2);  //Μετατροπή της χρονιάς, του μήνα και της μέρας της ημερομηνίας date2 σε ακέραιους
+    stringstream data2(date2); 
     getline(data2, month, '/');
     getline(data2, day, '/');
     getline(data2, year, '/');
@@ -56,7 +56,7 @@ char compare_dates(string date1, string date2){
     int day2 = stoi(day);
     int year2 = stoi(year);
 
-    if(year1 > year2)           //Εύρεση αν η date1 είναι μικρότερη, μεγαλύτερη ή ίση με τη date2
+    if(year1 > year2)           
         return '>';   
     else if(year1 < year2)
         return '<';
@@ -78,7 +78,7 @@ char compare_dates(string date1, string date2){
 int find_next(Data *table, string requested_date, int left, int right){
     string day, month, year;
 
-    stringstream data(requested_date); //Μετατροπή της χρονιάς, του μήνα και της ημέρας της ημερομηνίας requested_date σε ακέραιους
+    stringstream data(requested_date); 
     getline(data, month, '/');
     getline(data, day, '/');
     getline(data, year, '/');
@@ -86,7 +86,7 @@ int find_next(Data *table, string requested_date, int left, int right){
     int x_day = stoi(day);
     int x_year = stoi(year);
 
-    stringstream date1(table[left].date); //Μετατροπή της χρονιάς, του μήνα και της ημέρας της ημερομηνίας του στοιχείου left του πίνακα table σε ακέραιους
+    stringstream date1(table[left].date); 
     getline(date1, month, '/');
     getline(date1, day, '/');
     getline(date1, year, '/');
@@ -94,7 +94,7 @@ int find_next(Data *table, string requested_date, int left, int right){
     int left_day = stoi(day);
     int left_year = stoi(year);
 
-    stringstream date2(table[right].date); //Μετατροπή της χρονιάς, του μήνα και της ημέρας της ημερομηνίας του στοιχείου right του πίνακα table σε ακέραιους
+    stringstream date2(table[right].date); 
     getline(date2, month, '/');
     getline(date2, day, '/');
     getline(date2, year, '/');
@@ -103,15 +103,15 @@ int find_next(Data *table, string requested_date, int left, int right){
     int right_year = stoi(year);
 
     if(right_year == left_year){  
-        if(right_month != left_month){                                                      //Αν η χρονιά των δύο ημερομηνιών των στοιχείων left και right του πίνακα table είναι ίδιες
-            int next = ((x_month-left_month)*(right-left)/(right_month-left_month)) + left; //υπολογισμός του βήματος παρεμβολής με βάση τον μήνα των δύο ημερομηνιών
+        if(right_month != left_month){                                                      
+            int next = ((x_month-left_month)*(right-left)/(right_month-left_month)) + left; 
             return next;
-        }else{                                                                      //Αν η χρονιά και ο μήνας των δύο ημερομηνιών των στοιχείων left και right του πίνακα table είναι ίδιες
-            int next = ((x_day-left_day)*(right-left)/(right_day-left_day)) + left; //υπολογισμός του βήματος παρεμβολής με βάση την ημέρα των δύο ημερομηνιών
+        }else{                                                                      
+            int next = ((x_day-left_day)*(right-left)/(right_day-left_day)) + left; 
             return next;
         }
-    }else{                                                                          //Αν η χρονιά των δύο ημερομηνιών των στοιχείων left και right του πίνακα table είναι διαφορετικές
-        int next = ((x_year-left_year)*(right-left)/(right_year-left_year)) + left; //υπολογισμός του βήματος παρεμβολής με βάση τη χρονιά των δύο ημερομηνιών
+    }else{                                                                         
+        int next = ((x_year-left_year)*(right-left)/(right_year-left_year)) + left; 
         return next;
     }
 
@@ -155,46 +155,46 @@ void Quick_Sort(Data *table, int left, int right){
 
 
 void Binary_Search(Data *table, string requested_date, int first, int last){
-    int mid = (first+last)/2;   //Υπολογισμός του μεσαίου στοιχείου του πίνακα table
+    int mid = (first+last)/2;   
     bool found = false;
 
     if(last>=first && !found){
-        if(compare_dates(table[mid].date, requested_date) == '='){     //Αν η ημερομηνία του μεσαίου στοιχείου είναι ίση με αυτή που ψάχνουμε 
-            cout << "\nDate: " << table[mid].date << endl;             //εκτυπώνονται τα δεδομένα του μεσαίου στοιχείου και η συνάρτηση τερματίζεται αφού γίνεται found=true.
+        if(compare_dates(table[mid].date, requested_date) == '='){     
+            cout << "\nDate: " << table[mid].date << endl;            
             cout << "Temperature: " << table[mid].temperature << endl;
             cout << "Phosphate: " << table[mid].phosphate << endl;
             found = true;
-        }else if(compare_dates(table[mid].date, requested_date) == '<'){ //Αν η ημερομηνία του μεσαίου στοιχείου είναι μικρότερη από αυτή που ψάχνουμε
-            return Binary_Search(table, requested_date, mid+1, last);    //η συνάρτηση καλείται αναδρομικά για το δεύτερο μισό του πίνακα
-        }else if(compare_dates(table[mid].date, requested_date) == '>'){ //Αν η ημερομηνία του μεσαίου στοιχείου είναι μεγαλύτερη από αυτή που ψάχνουμε
-            return Binary_Search(table, requested_date, first, mid-1);   //η συνάρτηση καλείται αναδρομικά για το πρώτο μισό του πίνακα
+        }else if(compare_dates(table[mid].date, requested_date) == '<'){ 
+            return Binary_Search(table, requested_date, mid+1, last);    
+        }else if(compare_dates(table[mid].date, requested_date) == '>'){ 
+            return Binary_Search(table, requested_date, first, mid-1); 
         }
     }
 
-    if(!found)                                                 //Αν το στοιχείο που ψάχνουμε δεν βρεθεί και στην τελευταία αναδρομική κλήση 
-        cout << endl << "Requested element not found" << endl; //εκτυπώνεται το αντίστοιχο μήνυμα
+    if(!found)                                                 
+        cout << endl << "Requested element not found" << endl; 
 }
 
 
 void Interpolation_Search(Data *table, string requested_date, int left, int right){
     bool found = false;
-    int next = find_next(table, requested_date, left, right);  //Υπολογισμός βήματος παρεμβολής
+    int next = find_next(table, requested_date, left, right);  
 
     if(compare_dates(requested_date, table[left].date)!='<' && compare_dates(requested_date, table[right].date)!='>' && !found){
-        if(compare_dates(requested_date, table[next].date) == '='){     //Αν η ημερομηνία που ψάχνουμε είναι ίδια με αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            cout << "\nDate: " << table[next].date << endl;             //εκτυπώνουμε τα δεδομένα του συγκεκριμένου στοιχείου και η συνάρτηση τερματίζεται αφού γίνεται found=true
+        if(compare_dates(requested_date, table[next].date) == '='){     
+            cout << "\nDate: " << table[next].date << endl;             
             cout << "Temperature: " << table[next].temperature << endl;
             cout << "Phosphate: " << table[next].phosphate << endl;
             found = true;
-        }else if(compare_dates(requested_date, table[next].date) == '>'){      //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            return Interpolation_Search(table, requested_date, next+1, right); //καλούμε αναδρομικά τη συνάρτηση για το διάστημα [next+1, right]
-        }else if(compare_dates(requested_date, table[next].date) == '<'){      //Αν η ημερομηνία που ψάχνουμε είναι μικρότερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            return Interpolation_Search(table, requested_date, left, next-1);  //καλούμε αναδρομικά τη συνάρτηση για το διάστημα [left, next-1]
+        }else if(compare_dates(requested_date, table[next].date) == '>'){     
+            return Interpolation_Search(table, requested_date, next+1, right); 
+        }else if(compare_dates(requested_date, table[next].date) == '<'){      
+            return Interpolation_Search(table, requested_date, left, next-1);  
         }
     }
 
-    if(!found)                                                 //Αν το στοιχείο που ψάχνουμε δεν βρεθεί και στην τελευταία αναδρομική κλήση 
-        cout << endl << "Requested element not found" << endl; //εκτυπώνεται το αντίστοιχο μήνυμα
+    if(!found)                                                 
+        cout << endl << "Requested element not found" << endl; 
 }
 
 
