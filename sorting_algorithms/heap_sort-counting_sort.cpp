@@ -37,14 +37,13 @@ void read_data(ifstream &fin, Data *table){
 
 
 Data* Heapify_Array(Data *table, int length){
-    Data *heap = new Data[length+1];  //Creation of new dynamic table which is used as a heap
+    Data *heap = new Data[length+1];  
 
-    //Table elements are imported into the heap and after each import the heap structure is restored
     for(int i=1; i<=length; i++){
-        heap[i] = table[i-1];  //Each element of the table is inserted at the end of the heap 
+        heap[i] = table[i-1]; 
         int j = i;
-        while(heap[j].phosphate > heap[j/2].phosphate && j > 1){ // If the phosphate value of the father is lower than that of the son, i.e. the element that was just inserted,
-            Data temp = heap[j];                                 // then the two elements are swapped. The check is done until the first element is reached.
+        while(heap[j].phosphate > heap[j/2].phosphate && j > 1){ 
+            Data temp = heap[j];                                
             heap[j] = heap[j/2];
             heap[j/2] = temp;
             j = j/2;
@@ -56,41 +55,40 @@ Data* Heapify_Array(Data *table, int length){
 
 
 void Heap_Sort(Data *table, int length){I store in each position of the table the
-    Data *heap = Heapify_Array(table, length); //The table is converted into heap form
+    Data *heap = Heapify_Array(table, length); 
     int heap_length = length;
 
-    for(int i=length-1; i>=0; i--){  //Starting from the end of the table, in each of its cells is stored the
-        table[i] = heap[1];          //first element of the heap which is the element with the highest phosphate value
-        Data temp = heap[1];         //First and last element of the heap are swapped
+    for(int i=length-1; i>=0; i--){ 
+        table[i] = heap[1];         
+        Data temp = heap[1];        
         heap[1] = heap[heap_length];
         heap[heap_length] = temp;
-        heap_length--;               //The size of the heap is reduced by 1 to extract the element with the highest phosphate value
+        heap_length--;             
         
-        //The structure of the heap is then restored after the first and last elements have been swaped
         int j = 1;
-        while(2*j < heap_length){ //Starting from the root, as long as the father has two children, the following procedure is carried out
-            if(heap[j].phosphate < heap[2*j].phosphate || heap[j].phosphate < heap[2*j+1].phosphate){ //If the phosphate value of the father is lower than that of at least one of his two sons the following procedure is performed
-                if(heap[2*j].phosphate > heap[2*j+1].phosphate){ //If the phosphate value of the right son is higher than that of the left son
-                    Data temp = heap[j];                         //the father is swapped with his right son
+        while(2*j < heap_length){ 
+            if(heap[j].phosphate < heap[2*j].phosphate || heap[j].phosphate < heap[2*j+1].phosphate){
+                if(heap[2*j].phosphate > heap[2*j+1].phosphate){ 
+                    Data temp = heap[j];                      
                     heap[j] = heap[2*j];
                     heap[2*j] = temp;
-                    j = 2*j;            //j is changed to go to the right son
-                }else if(heap[2*j].phosphate < heap[2*j+1].phosphate){ //If the phosphate value of the left son is higher than that of the right son
-                    Data temp = heap[j];                               //the father is swapped with his left son
+                    j = 2*j;         
+                }else if(heap[2*j].phosphate < heap[2*j+1].phosphate){ 
+                    Data temp = heap[j];                            
                     heap[j] = heap[2*j+1];
                     heap[2*j+1] = temp;
-                    j = 2*j + 1;          //j is changed to go to the left son
-                }else{                    //Otherwise, if the phosphate values of the right and left sons are equal
-                    Data temp = heap[j];  //there is a random switching of the father with his right son
+                    j = 2*j + 1;         
+                }else{                   
+                    Data temp = heap[j]; 
                     heap[j] = heap[2*j];
                     heap[2*j] = temp;
-                    j = 2*j;              //j is changed to go to the right son
+                    j = 2*j;
                 }
-            }else break; //If the phosphate value of the father is greater than the phosphate values of both his sons then the iteration stops after the heap structure has been restored
+            }else break;
         }
 
-        if(2*j == heap_length && heap[j].phosphate < heap[2*j].phosphate){ //I check the case where the father has only one son
-            Data temp = heap[j];                                           //If his son has a higher phosphate value then the elements are swapped
+        if(2*j == heap_length && heap[j].phosphate < heap[2*j].phosphate){ 
+            Data temp = heap[j];                                           
             heap[j] = heap[2*j];
             heap[2*j] = temp;
         }
@@ -99,30 +97,29 @@ void Heap_Sort(Data *table, int length){I store in each position of the table th
 
 
 void Counting_Sort(Data *table, int length, int wide){
-    Data *tableB = new Data[length]; //Creation of an auxiliary tableB in which objects of type Data are stored
-    int *tableC = new int[wide+1];   //Creation of an auxiliary tableC in which integers are stored
+    Data *tableB = new Data[length]; 
+    int *tableC = new int[wide+1];  
 
-    for(int i=0; i<wide+1; i++)  //Initializion of all positions of tableC with 0
+    for(int i=0; i<wide+1; i++)
         tableC[i] = 0;
 
-    for(int i=0; i<length; i++)                //For each element of the table the phosphate value is multiplied by 100 to be converted into an integer
-        tableC[int(table[i].phosphate*100)]++; //and the corresponding counter in tableC is incremented by 1
+    for(int i=0; i<length; i++)                
+        tableC[int(table[i].phosphate*100)]++;
 
-    for(int i=1; i<wide+1; i++)   //In each position of tableC we store the sum of the contents of that position and the
-        tableC[i] += tableC[i-1]; //contents of its previous position, starting from position 1 of the table
+    for(int i=1; i<wide+1; i++)   
+        tableC[i] += tableC[i-1]; 
 
-    for(int i=length-1; i>=0; i--){              //For each element of the table we find its correct insertion position in the sorted tableB as determined
-        int index = int(table[i].phosphate*100); //by tableC and copy the element to tableB by decreasing the corresponding counter in tableC by 1
+    for(int i=length-1; i>=0; i--){            
+        int index = int(table[i].phosphate*100);
         tableB[tableC[index]-1] = table[i];
         tableC[index]--;
     }
 
-    for(int i=0; i<length; i++) //The sorted data of tableB are stored in the table
+    for(int i=0; i<length; i++)
         table[i] = tableB[i];
 }
 
 
-//Print data of the table elements in the file "sorted_data.doc"
 void display_data(Data *table, int length){ 
     ofstream fout("sorted_data.doc");
 
