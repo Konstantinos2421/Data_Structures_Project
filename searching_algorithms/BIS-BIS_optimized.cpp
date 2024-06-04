@@ -178,81 +178,80 @@ void Binary_Search(Data *table, string requested_date, int first, int last){
 
 
 void BIS(Data *table, string requested_date, int left, int right){
-    int next = find_next(table, requested_date, left, right); //Υπολογισμός βήματος παρεμβολής
+    int next = find_next(table, requested_date, left, right);
     bool found = false;
 
-    if(compare_dates(requested_date, table[left].date)=='<' || compare_dates(requested_date, table[right].date)=='>') //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από το τελευταίο στοιχείο του πίνακα
-        cout << endl << "Requested element not found" << endl;                                                        //ή μικρότερη από αυτή του πρώτου τότε δεν υπάρχει στοιχείο με τη συγκεκριμένη ημερομηνία στον πίνακα
+    if(compare_dates(requested_date, table[left].date)=='<' || compare_dates(requested_date, table[right].date)=='>')
+        cout << endl << "Requested element not found" << endl;
 
     while(compare_dates(requested_date, table[left].date)!='<' && compare_dates(requested_date, table[right].date)!='>' && !found){
-        int table_size = right - left + 1;    //Υπολογισμός μεγέθους πίνακα
+        int table_size = right - left + 1;    
 
-        if(table_size <= 5){                                                //Αν το μέγεθος του πίνακα είναι από 1 μέχρι 5
-            for(int i=left; i<=right; i++){                                 //τότε γίνεται γραμμική αναζήτηση για την επιθυμητή ημερομηνία
-                if(compare_dates(requested_date, table[i].date) == '='){    //στα στοιχεία του πίνακα και αν βρεθεί στοιχείο με τη συγκεκριμένη
-                    cout << "\nDate: " << table[i].date << endl;            //ημερομηνία εκτυπώνονται τα δεδομένα του
+        if(table_size <= 5){                                               
+            for(int i=left; i<=right; i++){                                 
+                if(compare_dates(requested_date, table[i].date) == '='){   
+                    cout << "\nDate: " << table[i].date << endl;           
                     cout << "Temperature: " << table[i].temperature << endl;
                     cout << "Phosphate: " << table[i].phosphate << endl;
                     found = true;
                 }
             }
-            if(!found)                                                 //Αν η ημερομηνία δεν βρεθεί
-                cout << endl << "Requested element not found" << endl; //εκτυπώνεται αντίστοιχο μήνυμα
-            break;                                                     //και ο βρόγχος σταματάει να εκτελείται
+            if(!found)                                                 
+                cout << endl << "Requested element not found" << endl; 
+            break;                                                     
         }
 
-        //Αν το μέγεθος του πίνακα είναι μεγαλύτερο από 5 εκτελείται η παρακάτω διαδικασία
         int i=1;
-        if(compare_dates(requested_date, table[next].date) == '='){     //Αν η ημερομηνία που ψάχνουμε είναι ίδια με αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            cout << "\nDate: " << table[next].date << endl;             //εκτυπώνονται τα δεδομένα του συγκεκριμένου στοιχείου και η συνάρτηση τερματίζεται αφού γίνεται found=true
+        if(compare_dates(requested_date, table[next].date) == '='){     
+            cout << "\nDate: " << table[next].date << endl;            
             cout << "Temperature: " << table[next].temperature << endl;
             cout << "Phosphate: " << table[next].phosphate << endl;
             found = true;
-        }else if(compare_dates(requested_date, table[next].date) == '>'){ //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            while(compare_dates(requested_date, table[next + i*int(sqrt(table_size))].date) == '>') //μέχρι να προσδιοριστεί το διάστημα που βρίκεται το στοιχείο που ψάχνουμε
-                i++;                                                                                //γίνονται βήματα i*√(table_size) προς τα δεξιά του στοιχείου next
-            left = next + (i-1)*int(sqrt(table_size)); //Ορισμός των ορίων του διαστήματος που βρέθηκε προηγουμένως
+        }else if(compare_dates(requested_date, table[next].date) == '>'){ 
+            while(compare_dates(requested_date, table[next + i*int(sqrt(table_size))].date) == '>') 
+                i++;                                                                               
+            left = next + (i-1)*int(sqrt(table_size)); 
             right  = next + i*int(sqrt(table_size));
-        }else if(compare_dates(requested_date, table[next].date) == '<'){ //Αν η ημερομηνία που ψάχνουμε είναι μικρότερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            while(compare_dates(requested_date, table[next - i*int(sqrt(table_size))].date) == '<') //μέχρι να προσδιοριστεί το διάστημα που βρίκεται το στοιχείο που ψάχνουμε
-                i++;                                                                                //γίνονται βήματα i*√(table_size) προς τα αριστερά του στοιχείου next
-            left = next - i*int(sqrt(table_size));     //Ορισμός των ορίων του διαστήματος που βρέθηκε προηγουμένως
+        }else if(compare_dates(requested_date, table[next].date) == '<'){ 
+            while(compare_dates(requested_date, table[next - i*int(sqrt(table_size))].date) == '<') 
+                i++;                                                                               
+            left = next - i*int(sqrt(table_size));   
             right = next - (i-1)*int(sqrt(table_size));
         }
-        next = find_next(table, requested_date, left, right); //Υπολογισμός του βήματος παρεμβολής για το διάστημα που βρέθηκε παραπάνω και επανεκτέλεση της ίδιας διαδικασίας
+        next = find_next(table, requested_date, left, right); 
     }
 
 }
 
 
 void BIS_Optimized(Data *table, string requested_date, int left, int right){
-    int next = find_next(table, requested_date, left, right); //Υπολογισμός βήματος παρεμβολής
+    int next = find_next(table, requested_date, left, right); 
     bool found = false;
 
-    if(compare_dates(requested_date, table[left].date)=='<' || compare_dates(requested_date, table[right].date)=='>') //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από το τελευταίο στοιχείο του πίνακα
-        cout << endl << "Requested element not found" << endl;                                                        //ή μικρότερη από αυτή του πρώτου τότε δεν υπάρχει στοιχείο με τη συγκεκριμένη ημερομηνία στον πίνακα
+    if(compare_dates(requested_date, table[left].date)=='<' || compare_dates(requested_date, table[right].date)=='>') 
+        cout << endl << "Requested element not found" << endl;                                                       
 
     while(compare_dates(requested_date, table[left].date)!='<' && compare_dates(requested_date, table[right].date)!='>' && !found){
-        int table_size = right - left + 1;  //Καθορισμός μεγέθους του πίνακα
+        int table_size = right - left + 1;  
 
         int i=1;
-        if(compare_dates(requested_date, table[next].date) == '='){    //Αν η ημερομηνία που ψάχνουμε είναι ίδια με αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            cout << "\nDate: " << table[next].date << endl;            //εκτυπώνονται τα δεδομένα του συγκεκριμένου στοιχείου και η συνάρτηση τερματίζεται αφού γίνεται found=true
+        if(compare_dates(requested_date, table[next].date) == '='){    
+            cout << "\nDate: " << table[next].date << endl;            
             cout << "Temperature: " << table[next].temperature << endl;
             cout << "Phosphate: " << table[next].phosphate << endl;
             found = true;
-        }else if(compare_dates(requested_date, table[next].date) == '>'){ //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            while(compare_dates(requested_date, table[next + i*int(sqrt(table_size))].date) == '>') //μέχρι να προσδιοριστεί το διάστημα που βρίκεται το στοιχείο που ψάχνουμε
-                i = 2*i;                                                                            //γίνονται βήματα (2^i)*√(table_size) προς τα δεξιά του στοιχείου next
-            left = next + (i/2)*int(sqrt(table_size)); //Ορισμός των ορίων του διαστήματος που βρέθηκε προηγουμένως
+        }else if(compare_dates(requested_date, table[next].date) == '>'){ 
+            while(compare_dates(requested_date, table[next + i*int(sqrt(table_size))].date) == '>') 
+                i = 2*i;                                                                            
+            left = next + (i/2)*int(sqrt(table_size)); 
             right  = next + i*int(sqrt(table_size));
-            return Binary_Search(table, requested_date, left, right); //Εκτέλεση της δυαδικής αναζήτησης για το παραπάνω διάστημα
-        }else if(compare_dates(requested_date, table[next].date) == '<'){ //Αν η ημερομηνία που ψάχνουμε είναι μεγαλύτερη από αυτή του στοιχείου που υπολογίστηκε από το βήμα παρεμβολής
-            while(compare_dates(requested_date, table[next - i*int(sqrt(table_size))].date) == '<') //μέχρι να προσδιοριστεί το διάστημα που βρίκεται το στοιχείο που ψάχνουμε
-                i = 2*i;                                                                            //γίνονται βήματα (2^i)*√(table_size) προς τα αριστερά του στοιχείου next
-            left = next - i*int(sqrt(table_size));      //Ορισμός των ορίων του διαστήματος που βρέθηκε προηγουμένως
+            return Binary_Search(table, requested_date, left, right); 
+        }else if(compare_dates(requested_date, table[next].date) == '<'){ 
+            while(compare_dates(requested_date, table[next - i*int(sqrt(table_size))].date) == '<') 
+                i = 2*i;                                                                            
+            left = next - i*int(sqrt(table_size));    
             right = next - (i/2)*int(sqrt(table_size));
-            return Binary_Search(table, requested_date, left, right); //Εκτέλεση της δυαδικής αναζήτησης για το παραπάνω διάστημα
+            return Binary_Search(table, requested_date, left, right);
         }
     }
 }
