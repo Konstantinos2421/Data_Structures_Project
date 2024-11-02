@@ -279,7 +279,7 @@ void AVL_Tree::balanceTree(Node *v){
 
 
 int recursive_call_number = 0;
-void AVL_Tree::fixNodesHeight(TreeNode *v){
+void AVL_Tree::fixNodesHeight(Node *v){
     recursive_call_number++;
 
     if(v==nullptr){
@@ -304,7 +304,7 @@ void AVL_Tree::fixNodesHeight(TreeNode *v){
     recursive_call_number--;
 
     if(recursive_call_number == 0){
-        TreeNode *scan = v->father;
+        Node *scan = v->father;
         while(scan!=nullptr){
             if(scan->left_son->height > scan->right_son->height)
                 scan->height = scan->left_son->height + 1;
